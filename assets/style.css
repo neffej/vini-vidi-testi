@@ -1,0 +1,36 @@
+body{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.intro{
+    display:block;
+}
+
+ul{
+    justify-content: center;
+    text-align: center;
+    list-style: none;
+
+}
+
+li{justify-content: center;
+    text-align: left;
+    
+}
+
+/* .card{
+    visibility: hidden;
+} */
+
+.hide{
+    display:none;
+}
+
+.btn{
+    background-color: black;
+    color:white;
+}
+
+

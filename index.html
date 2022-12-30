@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Coding Game</title>  
+    <link rel="stylesheet" href="./assets/style.css"
+</head>
+<header>
+    <div><span class = "scores"></span></div>
+    <div class= "time"></div>
+
+</header>
+<body>
+    <div class = "container">
+        <div class="intro">
+            <h1>Coding Quiz Challenge</h1>  
+                <p>Try to answer the following code-related questions with the time limit. Keep in mind that incorrect answers will penalize your scoreline by ten seconds.</p>
+                <button id="start">Start Quiz</button>
+        </div>    
+        <div class = 'quiz'>
+            <div class="question">
+                <h2 id="question-text"></h2>
+            </div>
+            <div class = "card" id = 'myDIV'>
+                <ul class="answers">
+                        <li><button id="q1"></button></li>
+                        <li><button id="q2"></button></li>   
+                        <li><button id="q3"></button></li>
+                        <li><button id="q4"></button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="./assets/script.js"></script>
+</body>
+</html>
