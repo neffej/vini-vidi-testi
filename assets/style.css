@@ -8,6 +8,10 @@ body{
     display:block;
 }
 
+.results{
+    display: none;
+}
+
 ul{
     justify-content: center;
     text-align: center;

@@ -10,6 +10,7 @@ var time = document.querySelector('.time');
 var scores = document.querySelector('.scores');
 var record = localStorage.getItem('record');
 var quiz = document.querySelector('.quiz');
+var results = document.querySelector('.results');
 
 // var currentQuestion = 0;
 time.textContent = 0;
@@ -17,6 +18,7 @@ scores.textContent = "View Highscores";
 
 let currentQuestion = -1;
 const currentAnswer = [""];
+let runs = -1;
 
 var card = document.querySelector('.card');
 
@@ -75,6 +77,35 @@ const questions = [
 
 start.addEventListener('click', startGame)
 
+
+answer1.addEventListener('click',function(){
+    console.log(questions[currentQuestion].answers[0].answer);
+    let count = currentAnswer.push(questions[currentQuestion].answers[0].answer);
+    console.log(count);
+    checkAnswer();
+});
+
+answer2.addEventListener('click',function(){
+    let answer = 1;
+    console.log(questions[currentQuestion].answers[answer].answer);
+    let count = currentAnswer.push(questions[currentQuestion].answers[answer].answer);
+    console.log(count);
+    checkAnswer();    
+});
+answer3.addEventListener('click',function(){
+    let answer = 2;
+    let count = currentAnswer.push(questions[currentQuestion].answers[answer].answer);
+    console.log(count);
+    checkAnswer();    
+});
+answer4.addEventListener('click',function(){
+    let answer = 3;
+    console.log(questions[currentQuestion].answers[answer].answer);
+    let count = currentAnswer.push(questions[currentQuestion].answers[answer].answer);
+    console.log(count);
+    checkAnswer();  
+});
+
 function checkAnswer(){
     console.log(currentAnswer[currentAnswer.length - 1]);
     if(currentAnswer[currentAnswer.length - 1] === true){
@@ -99,8 +130,13 @@ function startGame(){
 };
 
 function setNextQuestion(){
+    if(currentQuestion < 4){
     currentQuestion +=  1;
     showQuestion();
+    }else{
+        console.log ('ended');
+        showResults();
+    }
 };
 
 function showQuestion(){
@@ -109,42 +145,14 @@ function showQuestion(){
     answer2.textContent = questions[currentQuestion].answers[1].option;
     answer3.textContent = questions[currentQuestion].answers[2].option;
     answer4.textContent = questions[currentQuestion].answers[3].option;
-    
-    answer1.addEventListener('click',function(){
-        console.log(questions[currentQuestion].answers[0].answer);
-        let count = currentAnswer.push(questions[currentQuestion].answers[0].answer);
-        console.log(count);
-        console.log(currentAnswer);
-        checkAnswer();
-    });
-
-    answer2.addEventListener('click',function(){
-        let answer = 1;
-        console.log(questions[currentQuestion].answers[answer].answer);
-        let count = currentAnswer.push(questions[currentQuestion].answers[answer].answer);
-        console.log(count);
-        console.log(currentAnswer);
-        checkAnswer();    
-    });
-    answer3.addEventListener('click',function(){
-        let answer = 2;
-        console.log(questions[currentQuestion].answers[answer].answer);
-        let count = currentAnswer.push(questions[currentQuestion].answers[answer].answer);
-        console.log(count);
-        console.log(currentAnswer);
-        checkAnswer();    
-    });
-    answer4.addEventListener('click',function(){
-        let answer = 3;
-        console.log(questions[currentQuestion].answers[answer].answer);
-        let count = currentAnswer.push(questions[currentQuestion].answers[answer].answer);
-        console.log(count);
-        console.log(currentAnswer);
-        checkAnswer();  
-    });
-
-
     };
+
+function showResults(){
+    quiz.style.display = 'none';
+    results.style.display = 'block';
+    results.textContent = "Congratulations! You have reached the end of the quiz. Please enter your initials to log your score!";
+    }
+
 
 
  
