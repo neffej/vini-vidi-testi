@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./assets/style.css"
 </head>
 <header>
-    <div><span class = "scores"></span></div>
+    <div><span><a class = "scores" href="#results"></a></span></div>
     <div class= "time"></div>
 
 </header>
@@ -32,10 +32,18 @@
                 </ul>
             </div>
         </div>
-        <div class = 'results'>
-            <span text-content = "placeholder text"></span>
+        <div id="results">
+            <p id="resultsList"></p>
         </div>
     </div>
+
+        <div class="submission">
+                <label for="email">Enter your initials:</label>
+                <input type="text" name="initials" id="initials" maxlength="3" placeholder="###" />
+                <div id="msg"></div>
+                <button id="submit">Submit</button>
+        <div>
+
     <script src="./assets/script.js"></script>
 </body>
 </html>

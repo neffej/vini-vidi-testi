@@ -10,21 +10,27 @@ var time = document.querySelector('.time');
 var scores = document.querySelector('.scores');
 var record = localStorage.getItem('record');
 var quiz = document.querySelector('.quiz');
-var results = document.querySelector('.results');
+var submission = document.querySelector('.submission');
+var results = document.querySelector('#results');
+var resultsList = document.querySelector('#resultsList');
+// var form = document.querySelector('form');
+var card = document.querySelector('.card');
+var initialInput = document.querySelector('#initials');
+var submitButton = document.querySelector('#submit');
+var msgDiv = document.querySelector("#msg");
 
-// var currentQuestion = 0;
-time.textContent = 0;
 scores.textContent = "View Highscores";
+time.textContent = 0;
+
 
 let currentQuestion = -1;
 const currentAnswer = [""];
 let runs = -1;
 
-var card = document.querySelector('.card');
 
 // card.style.display = 'none';
 quiz.style.display = 'none';
-
+submission.style.display = 'none';
 
 const questions = [
     {
@@ -74,10 +80,44 @@ const questions = [
     }
 ];
 
+function displayMessage(type, message) {
+    msgDiv.textContent = message;
+    msgDiv.setAttribute("class", type);
+  };
 
-start.addEventListener('click', startGame)
+start.addEventListener('click', startGame);
 
+submitButton.addEventListener("click", function(event) {
+    event.preventDefault();
 
+    var initials = document.querySelector('#initials').value
+
+    if (initials === "") {
+        displayMessage("error", "Email cannot be blank");
+      } else if (initials.length != 3) {
+        displayMessage("error", "Must enter 3 letters");
+      } else {
+        displayMessage("success", "High Score recorded successfully");
+
+    localStorage.setItem("initials",initials);
+    console.log(localStorage.getItem("initials"));
+
+      }
+    });
+
+scores.addEventListener('click',function(){
+    results.style.display = 'block';
+    quiz.style.display = 'none';
+    submission.style.display = 'none';
+    intro.style.display = 'none';
+
+    var username = localStorage.getItem('initials');
+
+    resultsList.textContent = username;
+    console.log(resultsList.textContent);
+});
+
+// Answer button logic
 answer1.addEventListener('click',function(){
     console.log(questions[currentQuestion].answers[0].answer);
     let count = currentAnswer.push(questions[currentQuestion].answers[0].answer);
@@ -106,6 +146,7 @@ answer4.addEventListener('click',function(){
     checkAnswer();  
 });
 
+// Functions 
 function checkAnswer(){
     console.log(currentAnswer[currentAnswer.length - 1]);
     if(currentAnswer[currentAnswer.length - 1] === true){
@@ -149,164 +190,10 @@ function showQuestion(){
 
 function showResults(){
     quiz.style.display = 'none';
-    results.style.display = 'block';
-    results.textContent = "Congratulations! You have reached the end of the quiz. Please enter your initials to log your score!";
+    submission.style.display = 'block';
     }
 
 
 
  
 
-// This controls what is displayed on the screen
-// function beginQuiz(){
-//     console.log('you clicked the button');
-//     intro.setAttribute('display','none');
-//     let currentQuestion = 0;
-//     countDown();
-//     quizGame();
-
-
-// };
-
-// The script below is what I wrote; it's to be returned to/altered
-
-// function next(){
-//     console.log ('next');
-//     currentQuestion++;
-//     if (currentQuestion === 5){
-//         console.log("end of quiz");
-//         prompt.innerHTML = "Congrats! That's the end of the quiz. Log your score!";
-//         card.style.display = 'none';
-//         return;
-//     }else {
-//         buttons[0].addEventListener('click',function(){
-//             if(currentQuestion < questions.length){
-//             console.log("clicked 0 button");
-//             if(questions[currentQuestion].answers[0].answer === true){
-//                 next();
-//                 console.log(currentQuestion+" true")
-//             }else if(questions[currentQuestion].answers[0].answer === false){
-//                 console.log(currentQuestion+" false");
-//                 next();
-//             }
-//             return;
-//         }
-//         });
-//     }  
-// };
-
-
-// function quizGame(){
-    
-
-//     buttons[0].addEventListener('click',function(){
-//         if(currentQuestion < questions.length){
-//         console.log("clicked 0 button");
-//         if(questions[currentQuestion].answers[0].answer === true){
-//             next();
-//             console.log(currentQuestion+" true")
-//         }else if(questions[currentQuestion].answers[0].answer === false){
-//             console.log(currentQuestion+" false");
-//             next();
-//         }
-//         return;
-//     }
-//     });
-//     // else{
-//     //     console.log("reset currentQuestions");
-//     //     if(questions[currentQuestion].answers[0].answer === true){
-//     //         currentQuestion = 0;
-//     //     }else if(questions[currentQuestion].answers[0].answer === false){
-//     //         currentQuestion = 0;
-//     //         console.log(questions[currentQuestion].answers[0].answer);
-//     //     }}
-//     // buttons[1].addEventListener('click',function(){
-//     //     if(currentQuestion < questions.length-1){
-//     //     console.log("clicked 1 button");
-//     //     if(questions[currentQuestion].answers[1].answer === true){
-//     //         currentQuestion ++;
-//     //         console.log(currentQuestion+" true")
-//     //     }else{
-//     //         currentQuestion ++;
-//     //         console.log(currentQuestion+" false");
-//     //     }
-//     // }else{
-//     //     console.log("reset currentQuestions");
-//     //     if(questions[currentQuestion].answers[1].answer === true){
-//     //         currentQuestion = 0;
-//     //     }else{
-//     //         currentQuestion = 0;
-//     //         console.log(questions[currentQuestion].answers[0].answer);
-//     //     }}
-//     // });
-//     // buttons[2].addEventListener('click',function(){
-//     //     if(currentQuestion < questions.length-1){
-//     //     console.log("clicked 2 button");
-//     //     if(questions[currentQuestion].answers[2].answer === true){
-//     //         currentQuestion ++;
-//     //         console.log(currentQuestion+" true")
-//     //     }else{
-//     //         currentQuestion ++;
-//     //         console.log(currentQuestion+" false");
-//     //     }
-//     // }else{
-//     //     console.log("reset currentQuestions");
-//     //     if(questions[currentQuestion].answers[2].answer === true){
-//     //         currentQuestion = 0;
-//     //     }else{
-//     //         currentQuestion = 0;
-//     //         console.log(questions[currentQuestion].answers[0].answer);
-//     //     }}
-//     // });
-//     // buttons[3].addEventListener('click',function(){
-//     //     if(currentQuestion < questions.length-1){
-//     //     console.log("clicked 3 button");
-//     //     if(questions[currentQuestion].answers[3].answer === true){
-//     //         currentQuestion ++;
-//     //         console.log(currentQuestion+" true")
-//     //     }else{
-//     //         currentQuestion ++;
-//     //         console.log(currentQuestion+" false");
-//     //     }
-//     // }else{
-//     //     console.log("reset currentQuestions");
-//     //     if(questions[currentQuestion].answers[3].answer === true){
-//     //         currentQuestion = 0;
-//     //     }else{
-//     //         currentQuestion = 0;
-//     //         console.log(questions[currentQuestion].answers[0].answer);
-//     //     }}
-//     // });
-// return;
-// }
-// quizGame();
-
-// function showResults(){
-
-                
-// }
-
-
-// function countDown(){
-//     var timeLeft = 75;
-//     var timeInterval = setInterval(function(){
-//         if(timeLeft > 1){
-//             time.textContent = timeLeft;
-//             timeLeft --;
-//         } else if (timeLeft === 1){
-//             time.textContent = timeLeft;
-//             timeLeft--;
-//         } else {
-//             localStorage.setItem('record',record);
-//             console.log('quiz over');
-//             clearInterval(timeInterval);
-//             // showResults();
-//         }
-//     },1000);
-// }
-
-
-
-// start.addEventListener('click',beginQuiz());
-
-// beginQuiz();
