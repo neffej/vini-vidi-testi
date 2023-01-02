@@ -8,20 +8,24 @@ var start = document.querySelector('#start');
 var intro = document.getElementsByClassName('intro')[0];
 var time = document.querySelector('.time');
 var scores = document.querySelector('.scores');
-var record = localStorage.getItem('record');
 var quiz = document.querySelector('.quiz');
 var submission = document.querySelector('.submission');
 var results = document.querySelector('#results');
 var resultsList = document.querySelector('#resultsList');
-// var form = document.querySelector('form');
 var card = document.querySelector('.card');
 var initialInput = document.querySelector('#initials');
 var submitButton = document.querySelector('#submit');
 var msgDiv = document.querySelector("#msg");
 
-scores.textContent = "View Highscores";
-time.textContent = 0;
+// var record = localStorage.getItem('record');
+const initials = [];
 
+
+scores.textContent = "View Highscores";
+time.textContent = 75;
+
+var secondsLeft = 75;
+var timerInterval = 0;
 
 let currentQuestion = -1;
 const currentAnswer = [""];
@@ -89,17 +93,22 @@ start.addEventListener('click', startGame);
 
 submitButton.addEventListener("click", function(event) {
     event.preventDefault();
+    var submission = document.querySelector('#initials').value
+    console.log(submission);
 
-    var initials = document.querySelector('#initials').value
 
-    if (initials === "") {
-        displayMessage("error", "Email cannot be blank");
-      } else if (initials.length != 3) {
+    if (submission === "") {
+        displayMessage("error", "Submission cannot be blank");
+      } 
+      else if (submission.length != 3) {
         displayMessage("error", "Must enter 3 letters");
-      } else {
+      }
+       else {
+        initials.push(document.querySelector('#initials').value);
         displayMessage("success", "High Score recorded successfully");
-
-    localStorage.setItem("initials",initials);
+        console.log(initials);
+        const initialsJSON = JSON.stringify(initials);
+    localStorage.setItem("initials",initialsJSON);
     console.log(localStorage.getItem("initials"));
 
       }
@@ -111,10 +120,15 @@ scores.addEventListener('click',function(){
     submission.style.display = 'none';
     intro.style.display = 'none';
 
-    var username = localStorage.getItem('initials');
+    var username = JSON.parse(localStorage.getItem('initials'));
 
-    resultsList.textContent = username;
-    console.log(resultsList.textContent);
+    username.forEach((item)=>{
+        let li = document.createElement('li');
+        li.innerText = item;
+        resultsList.appendChild(li);
+    });
+
+    console.log(username.length);
 });
 
 // Answer button logic
@@ -147,11 +161,25 @@ answer4.addEventListener('click',function(){
 });
 
 // Functions 
+function setTime(){
+    var timerInterval = setInterval(function(){
+        secondsLeft--;
+        time.textContent = secondsLeft;
+
+        if(secondsLeft === 0){
+            clearInterval(timerInterval);
+            showResults();
+        }
+
+    }, 1000);
+};
+
 function checkAnswer(){
     console.log(currentAnswer[currentAnswer.length - 1]);
     if(currentAnswer[currentAnswer.length - 1] === true){
         console.log ('true');
-    }else{console.log('false')};
+    }else{console.log('false');
+            secondsLeft -= 10;};
     setNextQuestion();
     return;
 };
@@ -159,7 +187,7 @@ function checkAnswer(){
 
 function startGame(){
     console.log('started');
-
+    setTime();
     if (quiz.style.display = 'none'){
         quiz.style.display = 'block';
         if( intro.style.display = 'block'){
@@ -176,6 +204,8 @@ function setNextQuestion(){
     showQuestion();
     }else{
         console.log ('ended');
+        clearInterval(timerInterval);
+        timerInterval = null;
         showResults();
     }
 };
