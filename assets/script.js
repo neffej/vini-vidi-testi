@@ -34,10 +34,10 @@ const currentAnswer = [""];
 let runs = -1;
 
 
-// card.style.display = 'none';
 quiz.style.display = 'none';
 submission.style.display = 'none';
 
+// List of questions
 const questions = [
     {
         question: "Commonly used data types DO NOT include:",
@@ -86,6 +86,7 @@ const questions = [
     }
 ];
 
+// This function populates the obj array with localStorage items so that the highscores can persist.
 function init() {
     var storedRecords = JSON.parse(localStorage.getItem("record"));
 
@@ -94,15 +95,16 @@ function init() {
     }
 }
 
+// This function provides feedback in the submission page
 function displayMessage(type, message) {
     msgDiv.textContent = message;
     msgDiv.setAttribute("class", type);
   };
 
-
-
+//   This button begins the game; the callback function hides the start page and displays the 1st quiz question
 start.addEventListener('click', startGame);
 
+// This button records the user's initials and scores in localStorage and navigates away from submission page
 submitButton.addEventListener("click", function(event) {
     event.preventDefault();
     var submission = document.querySelector('#initials').value
@@ -122,33 +124,42 @@ submitButton.addEventListener("click", function(event) {
         displayMessage("success", "High Score recorded successfully");
 
         // Stringify and store results
-        // const record = JSON.stringify(obj);
         localStorage.setItem("record",JSON.stringify(obj));
 
         // Check progress
         console.log(localStorage.getItem("record"));
         console.log(obj);
-        // console.log(obj.length);
+
+        // Render results page and hide submission page
+        results.style.display = 'block';
+        quiz.style.display = 'none';
+        submission.style.display = 'none';
+        intro.style.display = 'none';
+
+        return;
        }
     });
 
+// View Highscores link logic
 scores.addEventListener('click',function(){
     results.style.display = 'block';
     quiz.style.display = 'none';
     submission.style.display = 'none';
     intro.style.display = 'none';
 
-    
+    // Grab records from localStorage
     var recordList = JSON.parse(localStorage.getItem('record'));
     console.log(recordList[0].user);
     console.log(recordList[0].secondsLeft);
 
+    // Sort record list
     let sortedRecords = recordList.sort(
         (p1,p2)=>(p1.secondsLeft < p2.secondsLeft)? 1 : (p1.secondsLeft > p2.secondsLeft) ? -1 :0);
 
     console.log(sortedRecords[0]);
     console.log(recordList[0]);
 
+    // Display record list in li in the OL provided in the HTML
     for(var i=0; i< recordList.length; i++){
         var user = recordList[i].user;
         var score = recordList[i].secondsLeft;
@@ -162,6 +173,7 @@ scores.addEventListener('click',function(){
     });
 
 // Answer button logic
+// The following 4 eventListeners provide logic for the 4 answer choices in the test game
 answer1.addEventListener('click',function(){
     console.log(questions[currentQuestion].answers[0].answer);
     let count = currentAnswer.push(questions[currentQuestion].answers[0].answer);
@@ -190,6 +202,7 @@ answer4.addEventListener('click',function(){
 });
 
 // Functions 
+// setTime controls the timing function of the game, which coincidentally is also the scoring function of the game. Variables here will be seen in the record storage process.
 function setTime(){
     let timerInterval = setInterval(function(){
         secondsLeft--;
@@ -202,7 +215,7 @@ function setTime(){
         }},1000)
     };
 
-
+// This function refers to the questions object to validate whether the user's choice was correct. CurrentAnswer variable introduced in answer buttons.
 function checkAnswer(){
     console.log(currentAnswer[currentAnswer.length - 1]);
     if(currentAnswer[currentAnswer.length - 1] === true){
@@ -213,7 +226,7 @@ function checkAnswer(){
     return;
     };
 
-
+// This function cycles the webpage from its homepage to display the quiz.
 function startGame(){
     console.log('started');
     setTime();
@@ -227,6 +240,7 @@ function startGame(){
     return;
 };
 
+// This function verifies whether the user is at the end of the exam; if he/she is, the quiz ends and results are given. If not, the next question is shown.
 function setNextQuestion(){
     if(currentQuestion < 4){
     currentQuestion +=  1;
@@ -240,6 +254,7 @@ function setNextQuestion(){
     }
 };
 
+// This function controls the display of the quiz section of the webpage. It might be superfluous and these relationships could be declared at the top, but it's something I started with and don't have the time/energy to edit out at this point.
 function showQuestion(){
     prompt.textContent = questions[currentQuestion].question;
     answer1.textContent = questions[currentQuestion].answers[0].option;
@@ -248,10 +263,12 @@ function showQuestion(){
     answer4.textContent = questions[currentQuestion].answers[3].option;
     };
 
+// This function transitions the webpage to its submission form when the end of the questions have been reached.
 function showResults(){
     quiz.style.display = 'none';
     submission.style.display = 'block';
     }
+
 
 init();
 
