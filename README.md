@@ -8,7 +8,9 @@ This was a very interesting dive into arrays, objects, for loops and localStorag
 
 
 ## Current Bugs
-*I'm not aware of any functional bugs at right at this moment, but the styling is tremendously basic. I plan to upgrade the CSS when I have a little more time, and when I need more CSS practice!
+*The styling is tremendously basic. I plan to upgrade the CSS when I have a little more time, and when I need more CSS practice!
+
+*The submission function at the end allows a user to submit more than once. I just need to tweak the submitbutton logic to fix that.
 
 ## Installation
 The website is accessible at the links below. You can navigate there with any functional web browser.
