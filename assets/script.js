@@ -17,15 +17,17 @@ var initialInput = document.querySelector('#initials');
 var submitButton = document.querySelector('#submit');
 var msgDiv = document.querySelector("#msg");
 
-// var record = localStorage.getItem('record');
+const records = [];
 const initials = [];
-
+const times = [];
+let obj = [];
 
 scores.textContent = "View Highscores";
 time.textContent = 75;
 
+let x = 0;
 var secondsLeft = 75;
-var timerInterval = 0;
+var timerInterval=0
 
 let currentQuestion = -1;
 const currentAnswer = [""];
@@ -50,8 +52,8 @@ const questions = [
         question: "The condition in an if / else statement is enclosed within ______.",
         answers:[
             {option: "1. quotes", answer: false},
-            {option: "2. curly brackets", answer: true},
-            {option: "3. parentheses", answer: false},
+            {option: "2. parentheses", answer: true},
+            {option: "3. curly brackets", answer: false},
             {option: "4. square brackets", answer: false},
         ]
     },
@@ -84,10 +86,20 @@ const questions = [
     }
 ];
 
+function init() {
+    var storedRecords = JSON.parse(localStorage.getItem("record"));
+
+    if (storedRecords !== null) {
+        obj = storedRecords;
+    }
+}
+
 function displayMessage(type, message) {
     msgDiv.textContent = message;
     msgDiv.setAttribute("class", type);
   };
+
+
 
 start.addEventListener('click', startGame);
 
@@ -104,14 +116,20 @@ submitButton.addEventListener("click", function(event) {
         displayMessage("error", "Must enter 3 letters");
       }
        else {
-        initials.push(document.querySelector('#initials').value);
+        // Push results into obj array
+        var user = (document.querySelector('#initials').value);
+        obj.push({user, secondsLeft});
         displayMessage("success", "High Score recorded successfully");
-        console.log(initials);
-        const initialsJSON = JSON.stringify(initials);
-    localStorage.setItem("initials",initialsJSON);
-    console.log(localStorage.getItem("initials"));
 
-      }
+        // Stringify and store results
+        // const record = JSON.stringify(obj);
+        localStorage.setItem("record",JSON.stringify(obj));
+
+        // Check progress
+        console.log(localStorage.getItem("record"));
+        console.log(obj);
+        // console.log(obj.length);
+       }
     });
 
 scores.addEventListener('click',function(){
@@ -120,16 +138,28 @@ scores.addEventListener('click',function(){
     submission.style.display = 'none';
     intro.style.display = 'none';
 
-    var username = JSON.parse(localStorage.getItem('initials'));
+    
+    var recordList = JSON.parse(localStorage.getItem('record'));
+    console.log(recordList[0].user);
+    console.log(recordList[0].secondsLeft);
 
-    username.forEach((item)=>{
-        let li = document.createElement('li');
-        li.innerText = item;
+    let sortedRecords = recordList.sort(
+        (p1,p2)=>(p1.secondsLeft < p2.secondsLeft)? 1 : (p1.secondsLeft > p2.secondsLeft) ? -1 :0);
+
+    console.log(sortedRecords[0]);
+    console.log(recordList[0]);
+
+    for(var i=0; i< recordList.length; i++){
+        var user = recordList[i].user;
+        var score = recordList[i].secondsLeft;
+
+        var li = document.createElement("li");
+        li.textContent = user + "    " + score;
+        li.setAttribute = ("data-index",i);
+
         resultsList.appendChild(li);
+    }
     });
-
-    console.log(username.length);
-});
 
 // Answer button logic
 answer1.addEventListener('click',function(){
@@ -154,7 +184,6 @@ answer3.addEventListener('click',function(){
 });
 answer4.addEventListener('click',function(){
     let answer = 3;
-    console.log(questions[currentQuestion].answers[answer].answer);
     let count = currentAnswer.push(questions[currentQuestion].answers[answer].answer);
     console.log(count);
     checkAnswer();  
@@ -162,27 +191,27 @@ answer4.addEventListener('click',function(){
 
 // Functions 
 function setTime(){
-    var timerInterval = setInterval(function(){
+    let timerInterval = setInterval(function(){
         secondsLeft--;
         time.textContent = secondsLeft;
 
-        if(secondsLeft === 0){
+        if(secondsLeft === 0 || quiz.style.display === 'none'){
+            console.log('time stopped '+secondsLeft);
             clearInterval(timerInterval);
             showResults();
-        }
+        }},1000)
+    };
 
-    }, 1000);
-};
 
 function checkAnswer(){
     console.log(currentAnswer[currentAnswer.length - 1]);
     if(currentAnswer[currentAnswer.length - 1] === true){
         console.log ('true');
     }else{console.log('false');
-            secondsLeft -= 10;};
-    setNextQuestion();
+            secondsLeft -= 10;}
+            setNextQuestion();
     return;
-};
+    };
 
 
 function startGame(){
@@ -204,8 +233,9 @@ function setNextQuestion(){
     showQuestion();
     }else{
         console.log ('ended');
-        clearInterval(timerInterval);
-        timerInterval = null;
+        // clearInterval(timerInterval);
+        // timerInterval = null;
+        // console.log(timerInterval);
         showResults();
     }
 };
@@ -223,7 +253,7 @@ function showResults(){
     submission.style.display = 'block';
     }
 
-
+init();
 
  
 
