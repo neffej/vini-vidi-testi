@@ -18,6 +18,10 @@ The website is accessible at the links below. You can navigate there with any fu
 ## Usage
 Navigate to the webpage. Click "Start Quiz," then off you go! The list of highscores can be viewed at any time by clicking the "View Highscores" link in the top left corner.
 
+## Screenshot
+
+![The deployed website matches the mock-up provided in the service ticket. ](./Assets/images/screenshots.gif)
+
 ## Links
 https://github.com/neffej/vini-vidi-testi
 

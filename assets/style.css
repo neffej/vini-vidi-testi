@@ -2,11 +2,32 @@ body{
     align-items: center;
     justify-content: center;
     text-align: center;
+    display:block;
 }
 
 header{
     display:flex;
     justify-content:space-between;
+    margin: 5px;
+    padding: 5px;
+
+}
+
+header a{
+  font-size: large;
+  font-weight:800;
+  background-color:rgba(163, 163, 163, 0.719);
+  padding: 5px;
+  border-radius: 5% / 50%;
+}
+
+div.time{
+  font-size: large;
+  font-weight:800;
+  background-color:rgba(163, 163, 163, 0.719);
+  padding: 5px;
+  border-radius: 15% / 50%;
+  color:#6464E8;
 }
 
 .intro{
@@ -26,20 +47,39 @@ ul{
 
 li{justify-content: center;
     text-align: left;
+    align-items: center;
     
 }
 
-/* .card{
-    visibility: hidden;
-} */
-
-.hide{
-    display:none;
+.quiz{
+  justify-content: center;
+    
 }
 
-.btn{
-    background-color: black;
-    color:white;
+#resultsList{
+  font-size: x-large;
+  font-weight: 800;
+}
+
+
+
+button {
+    background-color: #6464E8;
+    border: 1px solid black;
+    color: white;
+    font-size: larger;
+    font-weight:700;
+    border-radius: 10% / 50%;
+}
+
+button:hover{
+  background-color: #50EAF5;
+  cursor: pointer;
+}
+
+header a:hover{
+  background-color: #50EAF5;
+  cursor: pointer;
 }
 
 input {
