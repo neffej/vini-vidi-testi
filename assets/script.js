@@ -131,17 +131,15 @@ submitButton.addEventListener("click", function(event) {
         console.log(obj);
 
         // Render results page and hide submission page
-        results.style.display = 'block';
-        quiz.style.display = 'none';
-        submission.style.display = 'none';
-        intro.style.display = 'none';
+
+        showScores()
 
         return;
        }
     });
 
 // View Highscores link logic
-scores.addEventListener('click',function(){
+function showScores(){
     results.style.display = 'block';
     quiz.style.display = 'none';
     submission.style.display = 'none';
@@ -170,7 +168,40 @@ scores.addEventListener('click',function(){
 
         resultsList.appendChild(li);
     }
-    });
+}
+
+scores.addEventListener('click',showScores
+// Commented out logic has migrated to a declared function:
+
+    // results.style.display = 'block';
+    // quiz.style.display = 'none';
+    // submission.style.display = 'none';
+    // intro.style.display = 'none';
+
+    // // Grab records from localStorage
+    // var recordList = JSON.parse(localStorage.getItem('record'));
+    // console.log(recordList[0].user);
+    // console.log(recordList[0].secondsLeft);
+
+    // // Sort record list
+    // let sortedRecords = recordList.sort(
+    //     (p1,p2)=>(p1.secondsLeft < p2.secondsLeft)? 1 : (p1.secondsLeft > p2.secondsLeft) ? -1 :0);
+
+    // console.log(sortedRecords[0]);
+    // console.log(recordList[0]);
+
+    // // Display record list in li in the OL provided in the HTML
+    // for(var i=0; i< recordList.length; i++){
+    //     var user = recordList[i].user;
+    //     var score = recordList[i].secondsLeft;
+
+    //     var li = document.createElement("li");
+    //     li.textContent = user + "    " + score;
+    //     li.setAttribute = ("data-index",i);
+
+    //     resultsList.appendChild(li);
+    // }
+    );
 
 // Answer button logic
 // The following 4 eventListeners provide logic for the 4 answer choices in the test game
